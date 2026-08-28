@@ -1,0 +1,3 @@
+# White-label build configuration (Model B — one branded app per client).
+# Copy per tenant and adjust; everything else comes from the API at runtime.
+apiBaseUrl=https://nb-api.example.com/

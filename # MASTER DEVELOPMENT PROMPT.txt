@@ -1,0 +1,2485 @@
+# MASTER DEVELOPMENT PROMPT
+
+## Build a Reusable Multi-Tenant Android Customer App Platform — Northern Bloom as First Tenant
+
+You are acting as a **senior software architect, Android engineer, backend engineer, SaaS architect, product designer, security engineer, analytics engineer, and DevOps engineer**.
+
+I am a developer building a SaaS platform for businesses that need their own branded customer mobile application.
+
+The first real client/tenant will be **Northern Bloom**.
+
+However, there is a critical architectural requirement:
+
+> **DO NOT build an app that is hard-coded specifically for Northern Bloom.**
+>
+> Build a reusable **multi-tenant / white-label mobile application platform** where Northern Bloom is simply the first tenant.
+
+The ultimate goal is:
+
+```text
+ONE REUSABLE APP CODEBASE
+        ↓
+MULTIPLE BUSINESS TENANTS
+        ↓
+Each tenant gets:
+- its own branding
+- logo
+- colors
+- business information
+- products
+- services
+- appointments
+- offers
+- notifications
+- customer data
+- analytics
+- configuration
+```
+
+The application must be controlled primarily from a centralized SaaS backend/admin dashboard.
+
+---
+
+# 1. CORE PRODUCT VISION
+
+The mobile application should act as a digital customer platform for a local business.
+
+The first tenant, Northern Bloom, should be able to use the app for:
+
+1. Customer registration/login
+2. Customer profiles
+3. Appointment/service booking
+4. Appointment management
+5. Local e-commerce
+6. Product browsing
+7. Product search
+8. Product categories
+9. Product details
+10. Shopping cart
+11. Checkout
+12. Local delivery
+13. Store pickup
+14. Delivery charges
+15. Orders
+16. Order status
+17. Offers and promotions
+18. Coupons
+19. Push notifications
+20. Promotional campaigns
+21. Personalized notifications
+22. Customer activity tracking
+23. Analytics
+24. Loyalty/rewards capability
+25. Favorites/wishlist
+26. Reviews/ratings
+27. Business information
+28. Contact/support
+29. Deep links
+30. App-controlled content
+31. Remote configuration
+32. In-app banners
+33. Promotional campaigns
+34. Customer segmentation
+35. Future loyalty/rewards functionality
+
+But the system must be designed so these features can be enabled/disabled per tenant.
+
+For example:
+
+```text
+Tenant A:
+Appointments = ON
+Shopping = OFF
+Delivery = OFF
+
+Tenant B:
+Appointments = OFF
+Shopping = ON
+Delivery = ON
+
+Tenant C:
+Appointments = ON
+Shopping = ON
+Delivery = ON
+Loyalty = ON
+```
+
+The mobile application should dynamically adapt to the tenant configuration.
+
+---
+
+# 2. MOST IMPORTANT ARCHITECTURAL PRINCIPLE
+
+The mobile app must NOT contain business data directly in the source code.
+
+DO NOT do this:
+
+```text
+if business == "Northern Bloom":
+    show Northern Bloom products
+```
+
+DO NOT hard-code:
+
+* product names
+* prices
+* offers
+* appointment services
+* banners
+* business address
+* phone number
+* business hours
+* delivery charges
+* colors
+* promotional text
+* categories
+* notification content
+
+All of this should come from the backend.
+
+The application should retrieve a tenant configuration from the SaaS backend.
+
+Conceptually:
+
+```json
+{
+  "tenantId": "northern-bloom",
+  "brand": {
+    "name": "Northern Bloom",
+    "logo": "...",
+    "primaryColor": "...",
+    "secondaryColor": "...",
+    "accentColor": "..."
+  },
+  "features": {
+    "appointments": true,
+    "shopping": true,
+    "delivery": true,
+    "pickup": true,
+    "coupons": true,
+    "loyalty": false,
+    "reviews": true
+  }
+}
+```
+
+The Android application renders itself based on this configuration.
+
+---
+
+# 3. MULTI-TENANT SAAS ARCHITECTURE
+
+Design the backend around tenants.
+
+Every important business-owned record must belong to a tenant.
+
+For example:
+
+```text
+Tenant
+ ├── Users
+ ├── Products
+ ├── Categories
+ ├── Services
+ ├── Appointments
+ ├── Orders
+ ├── Coupons
+ ├── Offers
+ ├── Notifications
+ ├── Campaigns
+ ├── Banners
+ ├── Reviews
+ ├── Delivery Settings
+ ├── Business Settings
+ └── Analytics
+```
+
+A customer should never be able to access another tenant's data.
+
+Every backend request must enforce tenant isolation.
+
+Do NOT rely on the mobile application to enforce this.
+
+Tenant authorization must happen server-side.
+
+---
+
+# 4. USER TYPES
+
+Design the system around several roles.
+
+## Platform Owner / Super Admin
+
+Controls the entire SaaS.
+
+Can:
+
+* create tenants
+* disable tenants
+* manage subscriptions
+* configure tenants
+* inspect platform-level analytics
+* manage administrators
+* manage app configurations
+* manage feature availability
+
+## Tenant Owner
+
+For example, the Northern Bloom owner.
+
+Can manage:
+
+* products
+* categories
+* services
+* appointments
+* customers
+* orders
+* delivery
+* coupons
+* offers
+* banners
+* notifications
+* campaigns
+* business settings
+* analytics
+
+## Tenant Staff
+
+Limited permissions.
+
+For example:
+
+```text
+appointments.read
+appointments.update
+orders.read
+orders.update
+customers.read
+```
+
+Do not give every staff account unrestricted access.
+
+Use role-based access control.
+
+## Customer
+
+The normal mobile application user.
+
+Can:
+
+* browse
+* book
+* purchase
+* manage profile
+* receive notifications
+* view orders
+* view appointments
+* use coupons
+* interact with offers
+
+---
+
+# 5. ANDROID APPLICATION STRUCTURE
+
+Design the Android app as a modern production application.
+
+Prefer:
+
+* Kotlin
+* Jetpack Compose
+* MVVM or another clean architecture
+* Repository pattern
+* dependency injection
+* secure API communication
+* local caching
+* offline-friendly architecture where appropriate
+* Firebase Cloud Messaging for push notifications
+* deep linking
+* proper navigation
+* encrypted storage for sensitive local credentials
+
+Do not build the application as one giant Activity or one giant composable.
+
+Use a modular architecture.
+
+Possible structure:
+
+```text
+app
+core
+ ├── network
+ ├── database
+ ├── authentication
+ ├── analytics
+ ├── notifications
+ ├── design-system
+ └── configuration
+
+feature-auth
+feature-home
+feature-products
+feature-product-details
+feature-cart
+feature-checkout
+feature-orders
+feature-appointments
+feature-profile
+feature-offers
+feature-notifications
+feature-reviews
+feature-support
+```
+
+You may recommend a better structure if there is a strong architectural reason.
+
+---
+
+# 6. APP INITIALIZATION
+
+When the application launches:
+
+```text
+Launch
+ ↓
+Determine tenant
+ ↓
+Fetch tenant configuration
+ ↓
+Validate configuration
+ ↓
+Load remote branding
+ ↓
+Load enabled features
+ ↓
+Initialize analytics
+ ↓
+Initialize push notification registration
+ ↓
+Check authentication state
+ ↓
+Open appropriate screen
+```
+
+The tenant should NOT necessarily be hardcoded.
+
+Support multiple tenant-identification strategies such as:
+
+```text
+Build flavor
+Custom app configuration
+Tenant-specific package/application ID
+Environment configuration
+Universal deep link
+Tenant code
+```
+
+Explain which strategy is best for:
+
+### Development
+
+### One Android app serving multiple businesses
+
+### Separate branded Play Store applications
+
+The architecture should support both possibilities.
+
+---
+
+# 7. WHITE-LABEL / BRANDING SYSTEM
+
+Create a centralized theme/configuration system.
+
+Tenant configuration should be able to control:
+
+* logo
+* app name
+* primary color
+* secondary color
+* accent color
+* typography preferences
+* button styles
+* splash screen
+* home page layout
+* icons where appropriate
+* business contact information
+* social links
+* store address
+* opening hours
+
+Do not allow arbitrary backend-provided values to break the UI.
+
+Validate configuration.
+
+Provide safe defaults.
+
+---
+
+# 8. HOME SCREEN
+
+The home screen should be remotely configurable.
+
+Potential components:
+
+```text
+Header
+ ↓
+Greeting
+ ↓
+Search
+ ↓
+Promotional Banner
+ ↓
+Quick Actions
+ ↓
+Upcoming Appointment
+ ↓
+Featured Products
+ ↓
+Categories
+ ↓
+Current Offers
+ ↓
+Recommended Products
+ ↓
+Business Information
+```
+
+The SaaS admin should be able to:
+
+* create banners
+* reorder sections
+* enable/disable sections
+* change promotional content
+* schedule campaigns
+* select featured products
+* select featured services
+
+Avoid requiring an app update for normal content changes.
+
+---
+
+# 9. APPOINTMENT SYSTEM
+
+This is one of the major features.
+
+The backend must manage:
+
+```text
+Services
+Staff
+Locations
+Working Hours
+Breaks
+Holidays
+Time Slots
+Booking Rules
+Cancellation Rules
+Buffer Times
+Maximum Daily Bookings
+```
+
+Customers should be able to:
+
+```text
+Select Service
+ ↓
+Select Staff (optional)
+ ↓
+Select Date
+ ↓
+Select Time
+ ↓
+Enter/confirm details
+ ↓
+Confirm Appointment
+```
+
+Appointment states:
+
+```text
+PENDING
+CONFIRMED
+RESCHEDULED
+COMPLETED
+CANCELLED
+NO_SHOW
+```
+
+The owner/admin should be able to:
+
+* create services
+* define duration
+* define price
+* define availability
+* define staff
+* block time
+* manually create appointments
+* reschedule appointments
+* cancel appointments
+* mark completed
+* mark no-show
+
+Prevent double booking server-side.
+
+Do NOT rely on the Android client to prevent booking conflicts.
+
+Use transactional/atomic booking logic.
+
+---
+
+# 10. APPOINTMENT REMINDERS
+
+Create automatic notifications:
+
+Example:
+
+```text
+Appointment confirmed
+Appointment reminder 24 hours before
+Appointment reminder 2 hours before
+Appointment rescheduled
+Appointment cancelled
+```
+
+The notification system must be configurable.
+
+Do not hard-code notification timing.
+
+---
+
+# 11. LOCAL E-COMMERCE
+
+Northern Bloom also sells physical products.
+
+Create a shopping section.
+
+The system should support:
+
+```text
+Categories
+Products
+Variants
+Images
+Prices
+Discounts
+Inventory
+SKU
+Stock status
+Descriptions
+Specifications
+Featured products
+Related products
+```
+
+Product structure should support future expansion.
+
+For example:
+
+```text
+Product
+ ├── Variant
+ │    ├── SKU
+ │    ├── price
+ │    ├── inventory
+ │    └── attributes
+```
+
+Even if Northern Bloom initially sells simple products, design the system so variants can be added later.
+
+---
+
+# 12. SHOPPING FLOW
+
+Customer:
+
+```text
+Browse
+ ↓
+Product Details
+ ↓
+Add to Cart
+ ↓
+Cart
+ ↓
+Checkout
+ ↓
+Delivery Method
+ ↓
+Address
+ ↓
+Payment
+ ↓
+Order Confirmation
+```
+
+Support:
+
+### Store Pickup
+
+Customer selects:
+
+```text
+Pickup from store
+```
+
+The system provides:
+
+* pickup location
+* estimated readiness time
+* pickup instructions
+
+### Home Delivery
+
+Customer provides/selects address.
+
+The backend calculates:
+
+```text
+Order subtotal
++
+Delivery charge
+-
+Discount
+=
+Final total
+```
+
+Delivery charges must be configurable from the SaaS.
+
+Possible future configuration:
+
+```text
+flat fee
+distance-based
+minimum-order threshold
+free delivery above X
+delivery zones
+```
+
+Do not hard-code a single delivery model.
+
+---
+
+# 13. ORDER MANAGEMENT
+
+Order states:
+
+```text
+PENDING
+CONFIRMED
+PROCESSING
+READY_FOR_PICKUP
+OUT_FOR_DELIVERY
+DELIVERED
+COMPLETED
+CANCELLED
+REFUNDED
+```
+
+Tenant admins need an order management interface.
+
+They should see:
+
+```text
+Order ID
+Customer
+Items
+Amount
+Delivery/Pickup
+Address where applicable
+Payment status
+Order status
+Created time
+```
+
+Customers should see order history.
+
+---
+
+# 14. PAYMENT ARCHITECTURE
+
+Do not tightly couple the application to one payment provider.
+
+Create a payment abstraction.
+
+Example:
+
+```text
+PaymentService
+ ├── Provider A
+ ├── Provider B
+ └── Cash/Pay at Store if enabled
+```
+
+Payment confirmation must be verified server-side.
+
+Never trust:
+
+```text
+payment_success = true
+```
+
+coming from the mobile client.
+
+Use provider webhooks/server verification.
+
+Store payment status separately from order status.
+
+---
+
+# 15. CUSTOMER PROFILE
+
+Customer profile should contain:
+
+```text
+Name
+Phone
+Email
+Profile picture (optional)
+Addresses
+Preferred location
+Order history
+Appointment history
+Favorites
+Notification preferences
+Marketing preferences
+```
+
+Allow customers to control promotional communication where legally required.
+
+---
+
+# 16. ADDRESS SYSTEM
+
+Support multiple addresses.
+
+For example:
+
+```text
+Home
+Work
+Other
+```
+
+Store only the information necessary for delivery.
+
+Allow users to edit/delete addresses.
+
+Do not collect unnecessary personal information.
+
+---
+
+# 17. PUSH NOTIFICATIONS
+
+This is extremely important.
+
+Use Firebase Cloud Messaging.
+
+Every installation/device should have a push token.
+
+Do NOT treat a device token as a permanent identity.
+
+Model:
+
+```text
+User
+ └── Devices
+      ├── device ID
+      ├── push token
+      ├── platform
+      ├── app version
+      └── last active
+```
+
+This handles customers using multiple devices.
+
+---
+
+# 18. NOTIFICATION SYSTEM
+
+Build a notification management system into the SaaS.
+
+Admins should be able to create:
+
+### Promotional notification
+
+Example:
+
+```text
+Weekend Sale
+20% off selected products.
+```
+
+### Appointment notification
+
+Automatically generated.
+
+### Order notification
+
+Automatically generated.
+
+### Offer notification
+
+Automatically generated or manually triggered.
+
+### General announcement
+
+Manually created.
+
+The admin should be able to specify:
+
+```text
+Title
+Message
+Image
+Deep-link destination
+Audience
+Scheduled time
+Expiration
+```
+
+---
+
+# 19. NOTIFICATION AUDIENCES
+
+This is where the SaaS becomes powerful.
+
+Support segmentation.
+
+Examples:
+
+```text
+All customers
+
+Customers who purchased in last 30 days
+
+Customers who have never purchased
+
+Customers with upcoming appointments
+
+Customers who haven't returned in 60 days
+
+Customers who purchased Product X
+
+Customers who abandoned their cart
+
+Customers who booked Service Y
+
+Customers inside a specific customer segment
+```
+
+The segmentation engine should eventually support rules such as:
+
+```text
+purchased_product = X
+AND
+last_purchase > 30 days
+```
+
+Do NOT initially build an absurdly complex marketing engine.
+
+Build a clean foundation that can grow.
+
+---
+
+# 20. DEEP LINKS
+
+Notifications should be able to open specific parts of the application.
+
+Examples:
+
+```text
+Offer notification
+→ /offer/123
+
+Product notification
+→ /product/456
+
+Appointment reminder
+→ /appointment/789
+
+Order update
+→ /order/ABC123
+```
+
+The same deep-link architecture should support:
+
+* QR codes
+* websites
+* social media
+* advertisements
+* email
+* SMS
+* push notifications
+
+---
+
+# 21. ANALYTICS / CUSTOMER ACTIVITY TRACKING
+
+Implement first-party product analytics.
+
+Track meaningful application events such as:
+
+```text
+app_opened
+screen_viewed
+product_viewed
+product_searched
+category_viewed
+product_added_to_cart
+product_removed_from_cart
+checkout_started
+purchase_completed
+purchase_failed
+appointment_viewed
+appointment_started
+appointment_booked
+appointment_cancelled
+offer_viewed
+offer_clicked
+coupon_applied
+notification_received
+notification_opened
+search_performed
+favorite_added
+favorite_removed
+```
+
+Each event should include useful metadata.
+
+Example:
+
+```json
+{
+  "event": "product_viewed",
+  "tenantId": "...",
+  "userId": "...",
+  "productId": "...",
+  "timestamp": "...",
+  "sessionId": "..."
+}
+```
+
+Avoid collecting unnecessary personal data.
+
+Do not implement covert tracking.
+
+The analytics system should be transparent, secure, and privacy-conscious.
+
+---
+
+# 22. SESSION ANALYTICS
+
+Track sessions.
+
+For example:
+
+```text
+session started
+session ended
+duration
+screens visited
+actions
+```
+
+Use this to understand:
+
+```text
+Which products are popular?
+Which offers convert?
+Which services are booked?
+Where do customers abandon checkout?
+Which notifications are opened?
+Which screens are rarely used?
+```
+
+---
+
+# 23. FUNNEL ANALYTICS
+
+Build funnels such as:
+
+```text
+Product Viewed
+ ↓
+Added to Cart
+ ↓
+Checkout Started
+ ↓
+Purchase Completed
+```
+
+And:
+
+```text
+Service Viewed
+ ↓
+Booking Started
+ ↓
+Booking Confirmed
+```
+
+And:
+
+```text
+Notification Sent
+ ↓
+Notification Opened
+ ↓
+Offer Viewed
+ ↓
+Purchase
+```
+
+The SaaS dashboard should eventually visualize these.
+
+---
+
+# 24. ABANDONED CART
+
+Design the backend so abandoned carts can be detected.
+
+Example:
+
+```text
+Customer adds product
+ ↓
+Doesn't checkout
+ ↓
+Cart remains inactive
+ ↓
+System detects abandoned cart
+ ↓
+Optional notification
+```
+
+Do not automatically spam users.
+
+Allow configurable campaign rules.
+
+---
+
+# 25. OFFERS AND COUPONS
+
+Admin should be able to create:
+
+```text
+Percentage discount
+Fixed discount
+Product-specific discount
+Category discount
+Minimum order discount
+First-order discount
+Time-limited offer
+Customer-segment offer
+```
+
+Coupon configuration:
+
+```text
+CODE
+discount
+start date
+end date
+usage limit
+per-user limit
+minimum order
+eligible products
+eligible categories
+eligible customers
+```
+
+Validate coupons server-side.
+
+Never trust discount calculations from the mobile application.
+
+---
+
+# 26. LOYALTY SYSTEM
+
+Design the architecture so loyalty can be enabled later.
+
+Potential model:
+
+```text
+Customer
+ ↓
+Points
+ ↓
+Transactions
+ ↓
+Rewards
+```
+
+Do not make this mandatory for version 1 if it unnecessarily delays launch.
+
+But ensure the database architecture does not prevent adding it later.
+
+---
+
+# 27. FAVORITES / WISHLIST
+
+Customers should be able to save:
+
+* products
+* potentially services
+
+This creates useful personalization data.
+
+Example:
+
+```text
+favorite_added
+favorite_removed
+```
+
+---
+
+# 28. REVIEWS
+
+For products/services where applicable:
+
+```text
+Rating
+Review
+Date
+Customer
+Product/service
+```
+
+The backend should determine whether a customer is eligible to review something.
+
+For example:
+
+```text
+Only verified purchasers can review products.
+```
+
+Admins should moderate reviews.
+
+---
+
+# 29. SEARCH
+
+Implement search for:
+
+```text
+Products
+Services
+```
+
+The search architecture should eventually support:
+
+* typo tolerance
+* ranking
+* categories
+* filters
+* price
+* availability
+
+Do not over-engineer the first version.
+
+---
+
+# 30. ADMIN / SAAS DASHBOARD
+
+The mobile app is only one part of the system.
+
+The SaaS dashboard is the control center.
+
+Admin sections should include:
+
+```text
+Dashboard
+
+Customers
+
+Products
+
+Categories
+
+Inventory
+
+Orders
+
+Appointments
+
+Services
+
+Staff
+
+Offers
+
+Coupons
+
+Banners
+
+Notifications
+
+Campaigns
+
+Analytics
+
+Reviews
+
+Delivery
+
+Business Settings
+
+App Configuration
+
+Users & Roles
+
+Audit Logs
+```
+
+---
+
+# 31. DASHBOARD HOME
+
+The tenant owner should immediately see:
+
+```text
+Today's revenue
+Orders today
+Appointments today
+Upcoming appointments
+Pending orders
+Low-stock products
+New customers
+Active offers
+Notification performance
+```
+
+Also show trends where meaningful.
+
+---
+
+# 32. CUSTOMER MANAGEMENT
+
+Admins should be able to see customer information appropriate to their permissions.
+
+Useful information:
+
+```text
+Customer name
+Contact information
+Registration date
+Last activity
+Orders
+Appointments
+Favorites
+Coupons used
+Customer segment
+```
+
+Do not expose unnecessary sensitive information to staff.
+
+---
+
+# 33. CUSTOMER SEGMENTS
+
+Build a segmentation engine.
+
+Initial segments:
+
+```text
+New Customers
+Returning Customers
+Inactive Customers
+High-Value Customers
+Appointment Customers
+Shopping Customers
+```
+
+Eventually support custom rules.
+
+---
+
+# 34. CONTENT MANAGEMENT
+
+The owner should not need a developer to modify ordinary app content.
+
+CMS-style controls should manage:
+
+```text
+Home banners
+Promotions
+Featured products
+Featured services
+Announcements
+Business information
+FAQ
+Contact details
+```
+
+Changes should appear in the app without publishing a new Android version.
+
+---
+
+# 35. REMOTE CONFIGURATION
+
+Create a remote configuration system.
+
+It should be possible to change:
+
+```text
+Feature flags
+Home layout
+Offers
+Delivery settings
+Appointment settings
+Branding
+Notification settings
+Minimum supported app version
+Maintenance mode
+```
+
+without requiring a new APK.
+
+However:
+
+> Remote configuration must NOT be treated as a replacement for secure backend authorization.
+
+A disabled feature must also be enforced server-side.
+
+---
+
+# 36. FEATURE FLAGS
+
+Every major feature should have a feature flag.
+
+Examples:
+
+```text
+appointments_enabled
+shopping_enabled
+delivery_enabled
+pickup_enabled
+coupons_enabled
+reviews_enabled
+loyalty_enabled
+favorites_enabled
+```
+
+This is what allows the same application to serve different businesses.
+
+---
+
+# 37. APP VERSION CONTROL
+
+The SaaS should know:
+
+```text
+minimum supported Android version
+recommended version
+latest version
+```
+
+If a critical update is required:
+
+```text
+API returns force_update = true
+```
+
+The application shows an update screen.
+
+---
+
+# 38. SECURITY
+
+Treat this as a production SaaS.
+
+Implement:
+
+* HTTPS
+* secure authentication
+* access tokens
+* refresh tokens
+* secure token storage
+* server-side authorization
+* tenant isolation
+* RBAC
+* rate limiting
+* input validation
+* output validation
+* API validation
+* database constraints
+* audit logs
+* secure password handling
+* secure payment verification
+* webhook verification
+* protection against IDOR
+* protection against unauthorized tenant access
+* protection against privilege escalation
+* protection against replay where appropriate
+
+Never trust the Android client.
+
+The client is untrusted.
+
+---
+
+# 39. AUDIT LOGGING
+
+Important admin actions should be logged.
+
+For example:
+
+```text
+Admin created product
+Admin changed price
+Admin issued refund
+Admin cancelled appointment
+Admin sent notification
+Admin changed delivery charge
+Admin changed user permissions
+```
+
+Audit logs should contain:
+
+```text
+actor
+tenant
+action
+target
+timestamp
+relevant metadata
+```
+
+Do not log secrets, passwords, access tokens, or sensitive payment information.
+
+---
+
+# 40. DATABASE ARCHITECTURE
+
+Design a normalized relational database.
+
+Possible core entities:
+
+```text
+tenants
+tenant_settings
+tenant_features
+tenant_branding
+
+users
+user_devices
+user_addresses
+
+roles
+permissions
+user_roles
+
+products
+product_variants
+categories
+inventory
+
+services
+staff
+staff_availability
+appointments
+
+carts
+cart_items
+
+orders
+order_items
+payments
+
+coupons
+offers
+campaigns
+
+notifications
+notification_templates
+notification_deliveries
+
+banners
+
+favorites
+reviews
+
+analytics_events
+sessions
+
+audit_logs
+```
+
+You may add/change entities if your architecture requires it.
+
+Explain relationships and indexes.
+
+Tenant IDs must be indexed wherever necessary.
+
+---
+
+# 41. API DESIGN
+
+Use a clean API architecture.
+
+Examples:
+
+```text
+POST /auth/login
+
+GET /tenant/config
+
+GET /products
+GET /products/:id
+
+GET /services
+
+GET /appointments/availability
+
+POST /appointments
+
+PATCH /appointments/:id/cancel
+
+GET /orders
+
+POST /orders
+
+POST /cart
+
+GET /cart
+
+POST /checkout
+
+GET /offers
+
+POST /coupons/validate
+
+POST /analytics/events
+
+POST /devices/register
+
+GET /notifications
+```
+
+Do not blindly copy these endpoints.
+
+Design the complete API contract.
+
+Document:
+
+* authentication
+* authorization
+* request schema
+* response schema
+* error format
+* pagination
+* filtering
+* sorting
+* idempotency where needed
+
+---
+
+# 42. OFFLINE / CACHING
+
+The app should cache appropriate read-only or low-risk information.
+
+Examples:
+
+```text
+categories
+product catalog
+tenant configuration
+images
+business information
+```
+
+Do NOT blindly cache sensitive operations.
+
+For bookings and payments, always validate current server state.
+
+---
+
+# 43. ERROR HANDLING
+
+Create a consistent error model.
+
+Example:
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "APPOINTMENT_SLOT_UNAVAILABLE",
+    "message": "This appointment slot is no longer available."
+  }
+}
+```
+
+The Android app should translate technical errors into useful customer-facing messages.
+
+---
+
+# 44. IMAGE / MEDIA MANAGEMENT
+
+Products, banners, logos, and promotional media should not be stored directly inside the database.
+
+Use object storage/CDN.
+
+The SaaS should store references/URLs and metadata.
+
+Consider:
+
+```text
+original
+thumbnail
+optimized
+```
+
+for images.
+
+---
+
+# 45. NOTIFICATION TEMPLATES
+
+Do not hard-code notification wording into application code.
+
+Create templates.
+
+Example:
+
+```text
+appointment_confirmation
+appointment_reminder
+order_confirmed
+order_ready
+order_out_for_delivery
+order_delivered
+promotion
+coupon
+general_announcement
+```
+
+Allow the tenant to customize templates where appropriate.
+
+Support variables:
+
+```text
+{{customer_name}}
+{{order_id}}
+{{appointment_date}}
+{{appointment_time}}
+{{business_name}}
+{{offer_name}}
+```
+
+Sanitize and validate template variables.
+
+---
+
+# 46. SCHEDULER / BACKGROUND JOB SYSTEM
+
+The backend will eventually require scheduled jobs.
+
+Examples:
+
+```text
+appointment reminders
+expired offers
+expired coupons
+abandoned carts
+scheduled notifications
+daily analytics aggregation
+inventory alerts
+```
+
+Use a proper job/queue system rather than relying on the Android application.
+
+The mobile app must NOT be responsible for critical scheduled operations.
+
+---
+
+# 47. DATA PRIVACY
+
+Design privacy from the beginning.
+
+Provide:
+
+```text
+Privacy Policy
+Terms
+Marketing consent
+Notification preferences
+Account deletion
+Data deletion where applicable
+```
+
+Separate transactional notifications from marketing notifications where appropriate.
+
+Do not collect data merely because it might someday be useful.
+
+---
+
+# 48. CUSTOMER ACCOUNT DELETION
+
+Customers should be able to request deletion.
+
+Design deletion carefully because orders, payments, and accounting records may have retention requirements.
+
+Use anonymization where complete deletion is not appropriate or legally possible.
+
+Document the strategy.
+
+---
+
+# 49. APP NAVIGATION
+
+A possible navigation structure:
+
+```text
+Home
+Shop
+Appointments
+Orders
+Profile
+```
+
+Depending on enabled features, tabs can dynamically change.
+
+For example, if shopping is disabled:
+
+```text
+Home
+Appointments
+Profile
+```
+
+If appointments are disabled:
+
+```text
+Home
+Shop
+Orders
+Profile
+```
+
+Avoid creating an empty tab.
+
+---
+
+# 50. CART / CHECKOUT UX
+
+Checkout should be deliberately simple.
+
+```text
+Cart
+ ↓
+Address / Pickup
+ ↓
+Delivery method
+ ↓
+Coupon
+ ↓
+Payment
+ ↓
+Review
+ ↓
+Place order
+```
+
+Show:
+
+```text
+Subtotal
+Discount
+Delivery
+Tax if applicable
+Final amount
+```
+
+The final total must always be calculated and verified server-side.
+
+---
+
+# 51. BUSINESS OPERATIONS
+
+The SaaS must also understand business realities.
+
+For example:
+
+```text
+Store closed
+Holiday
+Temporary closure
+Inventory unavailable
+Service unavailable
+Staff unavailable
+Delivery temporarily disabled
+Pickup temporarily disabled
+```
+
+The owner should be able to temporarily disable functionality without updating the app.
+
+---
+
+# 52. MULTI-LOCATION FUTURE
+
+Do not assume a tenant can only have one physical store.
+
+Design for:
+
+```text
+Tenant
+ └── Locations
+      ├── Location A
+      ├── Location B
+      └── Location C
+```
+
+This is especially important if the SaaS grows.
+
+Customers may eventually select a preferred location.
+
+---
+
+# 53. MULTI-BRAND STRATEGY
+
+The platform should support two deployment models.
+
+## Model A — Shared App
+
+One Android application.
+
+Customer selects or enters a business/tenant.
+
+Example:
+
+```text
+Business A
+Business B
+Business C
+```
+
+This is easier to maintain technically.
+
+## Model B — White-label Apps
+
+Each tenant gets its own branded Android application.
+
+For example:
+
+```text
+Northern Bloom
+Business B
+Business C
+```
+
+Each can have:
+
+* separate application ID
+* separate branding
+* separate Play Store listing
+
+BUT all connect to the same SaaS backend.
+
+The codebase remains shared.
+
+Use build flavors/configuration to accomplish this.
+
+Explain the tradeoffs between these approaches.
+
+---
+
+# 54. RECOMMENDED ARCHITECTURE
+
+Produce a complete architecture diagram similar to:
+
+```text
+                    ┌──────────────────────┐
+                    │   SaaS Admin Panel   │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │      API Layer       │
+                    └──────────┬───────────┘
+                               │
+              ┌────────────────┼────────────────┐
+              ▼                ▼                ▼
+        Auth Service     Commerce Service   Booking Service
+              │                │                │
+              └────────────────┼────────────────┘
+                               ▼
+                       ┌───────────────┐
+                       │   Database    │
+                       └───────────────┘
+                               │
+                ┌──────────────┼──────────────┐
+                ▼              ▼              ▼
+             Storage       Analytics       Notifications
+                                              │
+                                              ▼
+                                         FCM / Push
+                                              │
+                                              ▼
+                                      ┌──────────────┐
+                                      │ Android App  │
+                                      └──────────────┘
+```
+
+Improve this architecture if necessary.
+
+---
+
+# 55. NORTHERN BLOOM AS FIRST TENANT
+
+Northern Bloom should be implemented entirely through tenant configuration.
+
+For example:
+
+```text
+tenant_id = northern_bloom
+```
+
+Its:
+
+* branding
+* products
+* services
+* appointment settings
+* business information
+* offers
+* notification templates
+* delivery rules
+
+must live in the backend.
+
+The Android code should contain ZERO Northern Bloom-specific business logic.
+
+The only tenant-specific things allowed in a build should be deployment/configuration information necessary to identify the tenant.
+
+---
+
+# 56. WHAT THE OWNER SHOULD BE ABLE TO DO WITHOUT THE DEVELOPER
+
+This is a critical product requirement.
+
+The Northern Bloom owner should eventually be able to:
+
+```text
+Add product
+Edit product
+Change price
+Change inventory
+Create sale
+Create coupon
+Create offer
+Create banner
+Send notification
+Schedule notification
+View customers
+View orders
+Update order
+Create service
+Change appointment availability
+Block appointment slots
+View appointments
+Change delivery charge
+Enable/disable pickup
+View analytics
+```
+
+without asking me to modify the Android source code.
+
+If something requires changing the source code unnecessarily, identify it as an architectural problem.
+
+---
+
+# 57. ANALYTICS DASHBOARD
+
+Show metrics such as:
+
+```text
+DAU
+WAU
+MAU
+
+New users
+Returning users
+
+Product views
+Cart additions
+Checkout starts
+Purchases
+
+Appointment views
+Bookings
+Cancellations
+
+Notification sends
+Notification opens
+Notification conversion
+
+Revenue
+Average order value
+
+Popular products
+Popular services
+
+Customer retention
+```
+
+Do not blindly collect every possible metric.
+
+Focus on actionable business metrics.
+
+---
+
+# 58. FUTURE AI / PERSONALIZATION
+
+Do not implement an AI recommendation engine immediately.
+
+However, structure analytics so future recommendations are possible.
+
+For example:
+
+```text
+Customer frequently views skincare products
+Customer books a particular service
+Customer buys product category X
+```
+
+Later this could power:
+
+```text
+Recommended for you
+Frequently bought together
+Personalized offers
+```
+
+The first version should simply collect clean event data.
+
+---
+
+# 59. TESTING
+
+Create a comprehensive testing strategy.
+
+Android:
+
+```text
+Unit tests
+UI tests
+Navigation tests
+Repository tests
+API integration tests
+```
+
+Backend:
+
+```text
+Unit tests
+Integration tests
+Authorization tests
+Tenant isolation tests
+Booking concurrency tests
+Payment tests
+Webhook tests
+```
+
+Critical security tests:
+
+```text
+User from Tenant A attempting Tenant B data
+Customer attempting admin endpoint
+Staff attempting unauthorized operation
+Manipulated prices
+Manipulated discounts
+Manipulated appointment IDs
+Manipulated order IDs
+```
+
+---
+
+# 60. OBSERVABILITY
+
+Implement:
+
+```text
+structured logging
+error monitoring
+API metrics
+database monitoring
+job monitoring
+notification delivery monitoring
+```
+
+Never log:
+
+```text
+passwords
+access tokens
+refresh tokens
+payment secrets
+unnecessary personal data
+```
+
+---
+
+# 61. DEPLOYMENT
+
+Explain the production architecture.
+
+Separate:
+
+```text
+Development
+Staging
+Production
+```
+
+Use environment variables/secrets.
+
+Never commit:
+
+```text
+API keys
+database passwords
+Firebase service credentials
+payment secrets
+JWT secrets
+```
+
+to Git.
+
+---
+
+# 62. CI/CD
+
+Design a pipeline that can:
+
+```text
+build
+test
+lint
+security-check
+generate APK/AAB
+deploy backend
+```
+
+For white-label builds, explain how the same repository can generate:
+
+```text
+Northern Bloom Release
+Client B Release
+Client C Release
+```
+
+using tenant-specific configuration.
+
+---
+
+# 63. VERSIONING
+
+Use API versioning.
+
+For example:
+
+```text
+/api/v1/
+```
+
+When breaking changes occur:
+
+```text
+/api/v2/
+```
+
+The Android app should be compatible with backend versioning strategy.
+
+---
+
+# 64. MIGRATION STRATEGY
+
+The SaaS must be designed for evolution.
+
+Explain how to add:
+
+```text
+loyalty
+subscriptions
+gift cards
+membership
+multiple locations
+staff accounts
+advanced CRM
+WhatsApp integration
+email marketing
+SMS
+referrals
+wallet
+reviews
+advanced delivery
+```
+
+without rewriting the entire system.
+
+---
+
+# 65. MVP VS FUTURE FEATURES
+
+Do NOT attempt to build every feature simultaneously.
+
+Divide the project into:
+
+## Phase 1 — Foundation
+
+* authentication
+* tenant configuration
+* branding
+* navigation
+* backend architecture
+* database
+* API
+* admin authentication
+* customer profile
+
+## Phase 2 — Appointments
+
+* services
+* availability
+* booking
+* cancellation
+* admin appointment management
+* reminders
+
+## Phase 3 — Commerce
+
+* products
+* categories
+* cart
+* checkout
+* pickup
+* delivery
+* orders
+* inventory
+
+## Phase 4 — Marketing
+
+* offers
+* coupons
+* banners
+* push notifications
+* campaigns
+* deep links
+
+## Phase 5 — Analytics
+
+* event tracking
+* funnels
+* customer segments
+* dashboards
+
+## Phase 6 — SaaS / Multi-Tenant
+
+* tenant creation
+* feature flags
+* white-label configuration
+* RBAC
+* tenant management
+* audit logs
+
+## Phase 7 — Advanced
+
+* loyalty
+* recommendations
+* advanced CRM
+* multi-location
+* referrals
+* memberships
+
+---
+
+# 66. IMPORTANT: DO NOT OVERENGINEER
+
+I am a solo developer initially.
+
+Therefore:
+
+> Prefer a simple architecture that can scale over a complicated architecture designed for millions of users on day one.
+
+Do not introduce microservices merely because this is a SaaS.
+
+Start with a well-structured modular monolith if appropriate.
+
+Explain when/why parts could later be separated.
+
+---
+
+# 67. REQUIRED DELIVERABLE FROM YOU
+
+Before writing large amounts of code, produce:
+
+### 1. Complete architecture
+
+Explain:
+
+```text
+Android
+Backend
+Database
+Admin SaaS
+Authentication
+Notifications
+Payments
+Storage
+Analytics
+```
+
+### 2. Technology recommendations
+
+Recommend the technology stack and explain WHY.
+
+Consider:
+
+```text
+Android
+Backend
+Database
+Admin frontend
+Authentication
+Storage
+Push notifications
+Analytics
+Payments
+Hosting
+CI/CD
+```
+
+Do not choose technologies merely because they are trendy.
+
+Consider cost, simplicity, scalability, developer productivity, and maintainability for a solo developer.
+
+### 3. Database schema
+
+Provide complete entity relationships.
+
+### 4. API specification
+
+Define major endpoints and data contracts.
+
+### 5. Android architecture
+
+Show project/module structure.
+
+### 6. SaaS dashboard architecture
+
+Show admin modules.
+
+### 7. Multi-tenant architecture
+
+Explain exactly how tenant isolation works.
+
+### 8. White-label architecture
+
+Explain exactly how one codebase produces different branded applications.
+
+### 9. Push notification architecture
+
+Explain device tokens, notification campaigns, targeting, scheduling, delivery tracking, and deep links.
+
+### 10. Analytics architecture
+
+Explain event collection, storage, aggregation, privacy, and dashboarding.
+
+### 11. Security architecture
+
+Threat-model the system.
+
+### 12. MVP roadmap
+
+Give an implementation sequence.
+
+---
+
+# 68. CRITICAL DEVELOPMENT RULE
+
+Do not immediately start generating thousands of lines of code.
+
+First reason about the architecture.
+
+Then establish:
+
+```text
+Repository structure
+ ↓
+Database schema
+ ↓
+Backend foundation
+ ↓
+Authentication
+ ↓
+Tenant system
+ ↓
+Admin SaaS foundation
+ ↓
+Android foundation
+ ↓
+Feature modules
+```
+
+After each major stage, explain:
+
+```text
+What was built
+Why it exists
+How it connects
+How to test it
+What comes next
+```
+
+---
+
+# 69. THE END GOAL
+
+The final architecture should allow me to eventually say:
+
+> "Create a new tenant."
+
+And then configure:
+
+```text
+Business name
+Logo
+Colors
+Features
+Products
+Services
+Appointments
+Delivery
+Offers
+Notifications
+```
+
+and produce a working branded customer application without rebuilding the entire platform.
+
+Northern Bloom is simply:
+
+```text
+Tenant #001
+```
+
+The next client should be:
+
+```text
+Tenant #002
+```
+
+and should reuse the same underlying SaaS infrastructure and Android codebase.
+
+That is the architecture I want.
+
+Do not optimize the system merely for the first client.
+
+Optimize the architecture for **reusable productization while keeping the first implementation simple enough for a solo developer to actually finish.**
+
+Start by giving me the complete architecture and technology recommendation.
+
+Do not start coding until the architecture is logically consistent.

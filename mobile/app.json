@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "Northern Bloom",
+    "slug": "northern-bloom",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "nbcustomer",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#F5F0EB",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "backgroundColor": "#F5F0EB",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.northernbloom.customer"
+    },
+    "android": {
+      "package": "com.northernbloom.customer",
+      "edgeToEdgeEnabled": true,
+      "softwareKeyboardLayoutMode": "pan",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#F5F0EB"
+      }
+    },
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  }
+}

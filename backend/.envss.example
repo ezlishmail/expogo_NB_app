@@ -1,0 +1,6 @@
+DATABASE_URL="postgresql://neondb_owner:npg_th0iUXmpK7oR@ep-rough-breeze-ayd1uasv.c-5.us-east-2.aws.neon.tech/neondb?sslmode=require&connect_timeout=15"
+SHADOW_DATABASE_URL="postgresql://neondb_owner:npg_th0iUXmpK7oR@ep-rough-breeze-ayd1uasv.c-5.us-east-2.aws.neon.tech/shadow?sslmode=require&connect_timeout=15"
+PORT=3000
+CORS_ORIGIN="http://localhost:5173"
+TENANT_SLUG="northern-bloom"
+NODE_ENV="development"

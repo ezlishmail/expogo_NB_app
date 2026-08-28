@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd \"C:\\\\Users\\\\nyx\\\\Desktop\\\\northern bloom app\\\\mobile\" && find src -type f | sort && echo \"---EAS---\" && ls -la eas.json 2>/dev/null || echo \"no eas.json in mobile/\" && echo \"---ROOT EAS---\" && ls -la ../eas.json 2>/dev/null || echo \"no eas.json in root\")",
+      "Bash(node -e \"console.log\\('zod', require\\('zod/package.json'\\).version\\)\")",
+      "Bash(awk '/class ZodDefault/{f=1} f{print NR\": \"$0} /removeDefault/{if\\(f\\)exit}' node_modules/zod/v3/types.js)",
+      "WebSearch",
+      "Bash(mkdir -p mobile/assets admin/public)",
+      "Bash(cp logo.png mobile/assets/logo.png)",
+      "Bash(cp logo.png admin/public/logo.png)",
+      "Bash(node -e \"console.log\\('sharp ok:', !!require\\('sharp'\\)\\)\")",
+      "Bash(mv .asset-gen/gen.js tools/generate-app-icons.js)",
+      "Bash(rm -rf .asset-gen)",
+      "Bash(npm run *)",
+      "Bash(npx tsc *)",
+      "Bash(node -e \"console.log\\(JSON.stringify\\(require\\('./package.json'\\).scripts,null,2\\)\\)\")",
+      "Bash(npx prisma *)",
+      "Bash(node -e \"const s=require\\('./package.json'\\).scripts; for \\(const k of Object.keys\\(s\\)\\) if\\(/migrat|seed|deploy|prisma/i.test\\(k\\)\\) console.log\\(k+' -> '+s[k]\\)\")",
+      "Bash(ls -la \"C:/Users/nyx/.claude/projects/C--Users-nyx-Desktop-northern-bloom-app/memory/\" 2>&1 || echo \"NO_DIR\")"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+/* Northern Bloom salon brand — luxe gold accent on warm cream, deep ink for
+   primary actions. White-on-ink keeps AA contrast; gold reads as the accent
+   (white-on-gold would fail contrast). Tailwind v4 is configured here in CSS:
+   these @theme vars generate the bg-brand / text-brand-accent / bg-canvas /
+   font-display utilities used across the dashboard. */
+@theme {
+  --color-brand: #1c1a17; /* deep ink — primary buttons, active nav */
+  --color-brand-accent: #c9a84c; /* gold — highlights, brand mark */
+  --color-canvas: #faf3e3; /* warm cream page background (light) */
+  --color-canvas-dark: #0c0b09; /* near-black (reserved for future dark UI) */
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Cormorant Garamond", ui-serif, Georgia, "Times New Roman", serif;
+}
+
+html,
+body {
+  background-color: var(--color-canvas);
+  font-family: var(--font-sans);
+}

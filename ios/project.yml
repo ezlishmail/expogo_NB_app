@@ -1,0 +1,31 @@
+# XcodeGen project definition — run `xcodegen` in this directory to produce
+# NorthernBloom.xcodeproj, then open it in Xcode.
+name: NorthernBloom
+options:
+  bundleIdPrefix: com.northernbloom
+  deploymentTarget:
+    iOS: "16.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.10"
+targets:
+  NorthernBloom:
+    type: application
+    platform: iOS
+    sources:
+      - path: NorthernBloom
+    info:
+      path: NorthernBloom/Info.plist
+      properties:
+        UILaunchScreen: {}
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: false
+          NSExceptionDomains:
+            localhost:
+              NSExceptionAllowsInsecureHTTPLoads: true
+        # Deep links: nbcustomer://open/product/123
+        CFBundleURLTypes:
+          - CFBundleURLSchemes: [nbcustomer]
+            CFBundleURLName: com.northernbloom.deeplink
+        # Push (APNs). Add your entitlements + capability when enabling.
+        UIBackgroundModes: [remote-notification]

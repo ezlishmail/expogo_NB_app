@@ -1,0 +1,349 @@
+[
+  {
+    "name": "Rajni",
+    "staffId": 12,
+    "active": true,
+    "experienceYears": 9,
+    "rating": 4.8,
+    "bio": "Skin expert and makeup artist.",
+    "categories": [
+      "Skin",
+      "Bridal"
+    ],
+    "photoUrl": "https://drive.google.com/thumbnail?id=1p7N2EdVHlcxLpBULV2zoeP8Hahj8w8bG&sz=w1000"
+  },
+  {
+    "name": "Prianka",
+    "staffId": null,
+    "active": true,
+    "experienceYears": 0,
+    "rating": 4.9,
+    "bio": "Beauty specialist offering treatments and pedicure.",
+    "categories": [
+      "Skin",
+      "Pedicure"
+    ],
+    "photoUrl": "https://drive.google.com/thumbnail?id=15KqNisvV5MC5TQAGjK-9u9woUfEi_wv0&sz=w1000"
+  },
+  {
+    "name": "Daksh",
+    "staffId": 14,
+    "active": true,
+    "experienceYears": 2,
+    "rating": 4.7,
+    "bio": "Assistant hairdresser and therapy expert.",
+    "categories": [
+      "Hair"
+    ],
+    "photoUrl": "https://drive.google.com/thumbnail?id=1CO4arTjwH-2IDO7p59BeXIha0pRrQXwa&sz=w1000"
+  },
+  {
+    "name": "Sukhdeep",
+    "staffId": 5,
+    "active": true,
+    "experienceYears": 5,
+    "rating": 4.8,
+    "bio": "Hairdresser offering treatments and consultation.",
+    "categories": [
+      "Hair",
+      "Gents"
+    ],
+    "photoUrl": "https://drive.google.com/thumbnail?id=1F5SzzmQNvdG3NLnVTYXoYmfsgwB9HgJh&sz=w1000"
+  },
+  {
+    "name": "Pinky",
+    "staffId": 9,
+    "active": true,
+    "experienceYears": 6,
+    "rating": 4.9,
+    "bio": "Skin expert offering treatment and hairstyling.",
+    "categories": [
+      "Skin",
+      "Hair"
+    ],
+    "photoUrl": "https://drive.google.com/thumbnail?id=1MR2AWl-QUC4xG0iNqyAb4an2KTIWeKXw&sz=w1000"
+  },
+  {
+    "name": "Deepak",
+    "staffId": 2,
+    "active": true,
+    "experienceYears": 6,
+    "rating": 4.8,
+    "bio": "Unisex hairdresser and chemical expert; also offers skin care and facials.",
+    "categories": [
+      "Hair",
+      "Gents"
+    ],
+    "photoUrl": "https://drive.google.com/thumbnail?id=1hqvKiFIWyxDWIVJoouBxh4Y5UqlLeB_m&sz=w1000"
+  },
+  {
+    "name": "Pooja",
+    "staffId": 7,
+    "active": true,
+    "experienceYears": 4,
+    "rating": 5.0,
+    "bio": "Beauty expert, nail artist, hairstyling, pedicure, and treatment specialist.",
+    "categories": [
+      "Hair",
+      "Skin",
+      "Nails",
+      "Pedicure"
+    ],
+    "photoUrl": "https://drive.google.com/thumbnail?id=16FnZlvcIVze-KpDf9T3WjAUzMXlu7_YA&sz=w1000"
+  },
+  {
+    "name": "Abhi",
+    "staffId": 6,
+    "active": true,
+    "experienceYears": 4,
+    "rating": 4.7,
+    "bio": "Hairdresser.",
+    "categories": [
+      "Hair",
+      "Gents"
+    ],
+    "photoUrl": "https://drive.google.com/thumbnail?id=1lmPFf0giUFqEiQ2n8TCv0mINDkgom6Sw&sz=w1000"
+  },
+  {
+    "name": "Aman",
+    "staffId": 15,
+    "active": true,
+    "experienceYears": 3,
+    "rating": 4.9,
+    "bio": "Unisex hairdresser and chemical expert.",
+    "categories": [
+      "Hair",
+      "Gents"
+    ],
+    "photoUrl": "https://drive.google.com/thumbnail?id=1sOyTIc_VC30bMWJKpOlxnEJ-mqTZhVJp&sz=w1000"
+  },
+  {
+    "name": "Ram",
+    "staffId": 16,
+    "active": true,
+    "experienceYears": 12,
+    "rating": 4.8,
+    "bio": "Unisex hairdresser.",
+    "categories": [
+      "Hair",
+      "Gents"
+    ],
+    "photoUrl": "https://drive.google.com/thumbnail?id=16d5K0vdBYzc59L__Wm4wHELcMdJGN45n&sz=w1000"
+  },
+  {
+    "name": "Anil",
+    "staffId": 20,
+    "active": true,
+    "experienceYears": 9,
+    "rating": 4.7,
+    "bio": "Men's hairdresser and pedicure specialist.",
+    "categories": [
+      "Hair",
+      "Gents",
+      "Pedicure"
+    ],
+    "photoUrl": "https://drive.google.com/thumbnail?id=1saz8sjfoZtA9Z_vF9Wlhw6UpAhtsKZv4&sz=w1000"
+  },
+  {
+    "name": "Bunty",
+    "staffId": 19,
+    "active": true,
+    "experienceYears": 5,
+    "rating": 4.8,
+    "bio": "Unisex hairdresser and chemical expert.",
+    "categories": [
+      "Hair",
+      "Gents"
+    ],
+    "photoUrl": ""
+  },
+  {
+    "name": "Anku",
+    "staffId": 21,
+    "active": true,
+    "experienceYears": 2,
+    "rating": 4.7,
+    "bio": "Editor and men's hairdresser.",
+    "categories": [
+      "Hair",
+      "Gents"
+    ],
+    "photoUrl": "https://drive.google.com/thumbnail?id=1YtMe_fYFrAr87BoxrVGowXGKUGq9i2sP&sz=w1000"
+  },
+  {
+    "name": "Javwed",
+    "staffId": null,
+    "active": true,
+    "experienceYears": 0,
+    "rating": 4.8,
+    "bio": "Gents hairdresser offering haircut, hairstyling, beard trimming, and hair treatments.",
+    "categories": [
+      "Hair",
+      "Gents"
+    ],
+    "photoUrl": "https://drive.google.com/thumbnail?id=1UJobk-bJeQsPx2wrY4q3z5DSi4NzDxR0&sz=w1000"
+  },
+  {
+    "name": "Ahmed",
+    "staffId": 17,
+    "active": true,
+    "experienceYears": 7,
+    "rating": 4.9,
+    "bio": "Men's hairdresser and chemical expert.",
+    "categories": [
+      "Hair",
+      "Gents"
+    ],
+    "photoUrl": "https://drive.google.com/thumbnail?id=1qwRmWSnW79KxRSE6Y2Xo4T_W69dpiC83&sz=w1000"
+  },
+  {
+    "name": "Priya",
+    "staffId": null,
+    "active": true,
+    "experienceYears": 0,
+    "rating": 4.8,
+    "bio": "Beauty specialist offering pedicure and treatment.",
+    "categories": [
+      "Skin",
+      "Pedicure"
+    ],
+    "photoUrl": ""
+  },
+  {
+    "name": "Balwinder",
+    "staffId": 18,
+    "active": false,
+    "experienceYears": 11,
+    "rating": 4.9,
+    "bio": "Men's hairdresser offering treatments.",
+    "categories": [
+      "Hair",
+      "Gents"
+    ],
+    "photoUrl": ""
+  },
+  {
+    "name": "Karan",
+    "staffId": 23,
+    "active": false,
+    "experienceYears": 4,
+    "rating": 4.5,
+    "bio": "Assistant hairdresser.",
+    "categories": [
+      "Hair"
+    ],
+    "photoUrl": "/staff/_placeholder-male.svg"
+  },
+  {
+    "name": "Kelvin",
+    "staffId": 25,
+    "active": false,
+    "experienceYears": 8,
+    "rating": 4.7,
+    "bio": "Assistant hairdresser.",
+    "categories": [
+      "Hair"
+    ],
+    "photoUrl": "https://drive.google.com/thumbnail?id=17OqnLHA-tS8KXjHc8wV49KEGIioyLJ8b&sz=w1000"
+  },
+  {
+    "name": "Kuldeep",
+    "staffId": 26,
+    "active": false,
+    "bookable": false,
+    "experienceYears": 10,
+    "rating": 4.8,
+    "bio": "Manager.",
+    "categories": [],
+    "photoUrl": "/staff/_placeholder-male.svg"
+  },
+  {
+    "name": "Manish",
+    "staffId": 22,
+    "active": false,
+    "experienceYears": 3,
+    "rating": 4.4,
+    "bio": "Assistant hairdresser.",
+    "categories": [
+      "Hair"
+    ],
+    "photoUrl": "/staff/_placeholder-male.svg"
+  },
+  {
+    "name": "Nitiksha",
+    "staffId": 13,
+    "active": false,
+    "experienceYears": 3,
+    "rating": 4.6,
+    "bio": "Beauty, nails, and makeup artist.",
+    "categories": [
+      "Skin",
+      "Nails",
+      "Bridal"
+    ],
+    "photoUrl": "/staff/_placeholder-female.svg"
+  },
+  {
+    "name": "Pevinka",
+    "staffId": 10,
+    "active": false,
+    "experienceYears": 5,
+    "rating": 4.7,
+    "bio": "Beauty specialist offering treatments and pedicure.",
+    "categories": [
+      "Skin",
+      "Pedicure"
+    ],
+    "photoUrl": "/staff/_placeholder-female.svg"
+  },
+  {
+    "name": "Puiya",
+    "staffId": 11,
+    "active": false,
+    "experienceYears": 2,
+    "rating": 4.3,
+    "bio": "Beauty specialist offering pedicure and treatments.",
+    "categories": [
+      "Skin",
+      "Pedicure"
+    ],
+    "photoUrl": "/staff/_placeholder-female.svg"
+  },
+  {
+    "name": "Satinder",
+    "staffId": 24,
+    "active": false,
+    "experienceYears": 7,
+    "rating": 4.6,
+    "bio": "Assistant hairdresser.",
+    "categories": [
+      "Hair"
+    ],
+    "photoUrl": "/staff/_placeholder-male.svg"
+  },
+  {
+    "name": "Sukhi",
+    "staffId": 1,
+    "active": false,
+    "experienceYears": 3,
+    "rating": 4.4,
+    "bio": "Ladies' hairdresser specializing in styling.",
+    "categories": [
+      "Hair"
+    ],
+    "photoUrl": "/staff/_placeholder-female.svg"
+  },
+  {
+    "name": "Sumit",
+    "staffId": 8,
+    "active": false,
+    "experienceYears": 6,
+    "rating": 4.6,
+    "bio": "Makeup artist and bridal specialist.",
+    "categories": [
+      "Bridal",
+      "Skin"
+    ],
+    "photoUrl": "/staff/_placeholder-male.svg"
+  }
+]
